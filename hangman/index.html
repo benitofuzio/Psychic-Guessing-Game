@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Color Hangman</title>
+	<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+</head>
+<body>
+	<h1>COLOR HANGMAN!</h1>
+	<h3>GUESS THE COLOR!</h3>
+	<div id="game"></div>
+
+	<script type="text/javascript">
+	var color = ['purple', 'green', 'red', 'orange', 'blue', 'gray', 'brown', 'violet', 'yellow', 'pink', 'white', 'ivory', 'beige', 'tan', 'magenta', 'silver', 'gold', 'maroon'];		
+	var wins = 0;					
+	var userGuess = "";				
+	var numTurns = 9;				
+	var usedLetters = [];			
+	var hangWord = color[Math.floor(Math.random()*color.length)];
+	for(var i = 0; i < hangWord.length; i++) {
+		userGuess = userGuess + "_";
+	}
+	document.querySelector('#game').innerHTML = "COLOR: " + userGuess +
+			"<br> # OF GUESSES: " + numTurns +
+			"<br> ALREADY GUESSED: " + usedLetters +
+			"<br> WINS: " + wins;
+
+	function replaceLetter(str, i, letter) {
+		if(i > str.length-1) {
+			return str;
+		}
+		return str.substr(0, i) + letter + str.substr(i + 1);
+	}
+
+	function inArray(letter, arr) {
+		for(var i = 0; i < arr.length; i++) {
+			if(arr[i] == letter) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	function reset() {
+		hangWord = color[Math.floor(Math.random()*color.length)];
+		userGuess = "";
+		for(var i = 0; i < hangWord.length; i++) {
+			userGuess = userGuess + "_";
+		}
+		numTurns = 9;
+		usedLetters = [];
+	}
+		
+	document.onkeyup = function(event) {
+		var letter = String.fromCharCode(event.keyCode).toLowerCase();
+		var inWord = false;
+		for(var i = 0; i < hangWord.length; i++) {
+			if(letter == hangWord[i]) {
+				userGuess = replaceLetter(userGuess, i, letter);
+				inWord = true;
+			}
+		}
+		if(!inWord && !inArray(letter, usedLetters)) {
+			usedLetters.push(letter);
+			numTurns--;
+		}
+		if(numTurns == 0) {
+			alert("You lost! Try again!");
+			reset();
+		}
+		if(userGuess.indexOf("_") === -1) {
+			wins++;
+			reset();
+		}
+		var html = "COLOR: " + userGuess +
+			"<br> # OF GUESSES: " + numTurns +
+			"<br> ALREADY GUESSED: " + usedLetters +
+			"<br> WINS: " + wins;
+		document.querySelector('#game').innerHTML = html;
+	}
+	</script>
+</body>
+</html>

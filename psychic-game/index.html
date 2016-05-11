@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Psychic Game</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="css/reset.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+</head>
+<body>
+
+<div class="jumbotron">
+    <h1 class="text-center">The #Psychic Game!</h1>
+
+    <div class="text-center">
+
+      
+    </div>
+
+</div>
+
+<!-- Here we have the div where our number will go called randomNumber -->
+<h1 class="text-center" id="randomNumber"></h1>
+
+<div id = "game">
+<p><h1><center>Guess a number from 0-9, you get 3 tries to get it right each time!</center></h1></p>
+</div>
+
+<script type="text/javascript">
+	
+var computerChoices = ['0','1','2','3','4','5','6','7','8','9'];
+
+var wins = 0;
+var losses = 0;
+var guesses = 0;
+
+document.onkeyup = function(event) {
+	var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
+
+var computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
+
+if((userGuess =='0')||
+(userGuess =='1')||
+(userGuess =='2')||
+(userGuess =='3')||
+(userGuess =='4')||
+(userGuess =='5')||
+(userGuess =='6')||
+(userGuess =='7')||
+(userGuess =='8')||
+(userGuess =='9')){
+
+if(userGuess == computerGuess){
+	wins++;
+	guesses = '0'
+}else if (userGuess != computerGuess){
+	guesses++;
+};
+
+if (guesses >= '3'){
+	losses++;
+	guesses = '0';
+};
+
+
+
+var html = "<p><h1><center>Guess a number from 0-9, you get 3 tries to get it right each time!</center></h1></p>" +
+		"<p><center><h2>WINS: " + 
+		wins + 
+		"</h2></center></p>" +
+		"<p><center><h2>LOSSES: " + 
+		losses + 
+		"</h2></center></p>" +
+		"<p><center><h2>GUESSES: " + 
+		guesses + 
+		"</h2></center></p>";
+
+	document.querySelector('#game').innerHTML = html;
+
+}
+}
+</script>
+
+
+
+</body>
+</html>
